@@ -1,0 +1,22 @@
+behaviors:
+  FoodCollector:                 # ← Behavior Parameters의 Behavior Name과 동일
+    trainer_type: ppo            # 표준 온폴리시 알고리즘   ****
+    hyperparameters:
+      batch_size: 1024
+      buffer_size: 10240         # batch_size의 정수배
+      learning_rate: 5.0e-4
+      beta: 8.0e-3               # 탐험(엔트로피) 강도  ****
+      epsilon: 0.2               # PPO 클립 범위   ****
+      lambd: 0.95
+      num_epoch: 3
+    network_settings:
+      normalize: false
+      hidden_units: 128
+      num_layers: 2
+    reward_signals:
+      extrinsic:
+        gamma: 0.99              # 미래 보상 할인율 ****
+        strength: 1.0
+    max_steps: 300000            # 총 학습 스텝(에이전트 수만큼 빨리 소모) ****
+    time_horizon: 64
+    summary_freq: 10000          # TensorBoard 기록 주기
