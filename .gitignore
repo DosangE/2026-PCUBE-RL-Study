@@ -105,6 +105,10 @@ crashlytics-build.properties
 # Auto-generated cache in Assets folder
 **/[Aa]ssets/[Ss]ceneDependencyCache*
 
+# Editor screenshot captures (regenerable debug output)
+**/[Aa]ssets/[Ss]creenshots/
+**/[Aa]ssets/[Ss]creenshots.meta
+
 # --- Python / ML-Agents (training side) ---
 **/__pycache__/
 *.py[cod]
