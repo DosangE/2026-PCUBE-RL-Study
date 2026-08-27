@@ -2006,8 +2006,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e3fa48617442c79e0df8b9471b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodArea
-  goodFoodPrefab: {fileID: 3475184105495990793, guid: c6dc586cd46cf491fa3b5e08cf68949e, type: 3}
-  badFoodPrefab: {fileID: 5304893004130584873, guid: 2322be858c24c4abc990b759d78301cd, type: 3}
+  goodFoodPrefab: {fileID: 3475184105495990793, guid: 5f543e764632975468dc03de5e5ca3e5, type: 3}
+  badFoodPrefab: {fileID: 5304893004130584873, guid: c9171a26482a4614b890cb9517270910, type: 3}
   numGoodFood: 8
   numBadFood: 5
 --- !u!4 &208984532
@@ -2939,8 +2939,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.CameraSensorComponent
   m_Camera: {fileID: 1878016126}
   m_SensorName: AgentCamera
-  m_Width: 48
-  m_Height: 48
+  m_Width: 32
+  m_Height: 32
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0
@@ -3386,9 +3386,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 0
+  m_RequiresOpaqueTextureOption: 0
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
@@ -3404,7 +3404,7 @@ MonoBehaviour:
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
+  m_AllowHDROutput: 0
   m_UseScreenCoordOverride: 0
   m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
@@ -3462,8 +3462,8 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -4381,8 +4381,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.CameraSensorComponent
   m_Camera: {fileID: 1677800708}
   m_SensorName: AgentCamera
-  m_Width: 48
-  m_Height: 48
+  m_Width: 32
+  m_Height: 32
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0
@@ -4589,8 +4589,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.CameraSensorComponent
   m_Camera: {fileID: 1221187895}
   m_SensorName: AgentCamera
-  m_Width: 48
-  m_Height: 48
+  m_Width: 32
+  m_Height: 32
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0
@@ -5079,8 +5079,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e3fa48617442c79e0df8b9471b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodArea
-  goodFoodPrefab: {fileID: 3475184105495990793, guid: c6dc586cd46cf491fa3b5e08cf68949e, type: 3}
-  badFoodPrefab: {fileID: 5304893004130584873, guid: 2322be858c24c4abc990b759d78301cd, type: 3}
+  goodFoodPrefab: {fileID: 3475184105495990793, guid: 5f543e764632975468dc03de5e5ca3e5, type: 3}
+  badFoodPrefab: {fileID: 5304893004130584873, guid: c9171a26482a4614b890cb9517270910, type: 3}
   numGoodFood: 8
   numBadFood: 5
 --- !u!4 &524072954
@@ -5244,8 +5244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e3fa48617442c79e0df8b9471b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodArea
-  goodFoodPrefab: {fileID: 3475184105495990793, guid: c6dc586cd46cf491fa3b5e08cf68949e, type: 3}
-  badFoodPrefab: {fileID: 5304893004130584873, guid: 2322be858c24c4abc990b759d78301cd, type: 3}
+  goodFoodPrefab: {fileID: 3475184105495990793, guid: 5f543e764632975468dc03de5e5ca3e5, type: 3}
+  badFoodPrefab: {fileID: 5304893004130584873, guid: c9171a26482a4614b890cb9517270910, type: 3}
   numGoodFood: 8
   numBadFood: 5
 --- !u!4 &552019221
@@ -5725,8 +5725,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.CameraSensorComponent
   m_Camera: {fileID: 1395806841}
   m_SensorName: AgentCamera
-  m_Width: 48
-  m_Height: 48
+  m_Width: 32
+  m_Height: 32
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0
@@ -6259,6 +6259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 634885105}
   - component: {fileID: 634885106}
+  - component: {fileID: 634885107}
   m_Layer: 0
   m_Name: AgentEye
   m_TagString: Untagged
@@ -6325,13 +6326,57 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &634885107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634885104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 0
+  m_RequiresOpaqueTextureOption: 0
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 0
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &640624510
 GameObject:
   m_ObjectHideFlags: 0
@@ -6913,9 +6958,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 0
+  m_RequiresOpaqueTextureOption: 0
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
@@ -6931,7 +6976,7 @@ MonoBehaviour:
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
+  m_AllowHDROutput: 0
   m_UseScreenCoordOverride: 0
   m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
@@ -6989,8 +7034,8 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -7025,8 +7070,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e3fa48617442c79e0df8b9471b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodArea
-  goodFoodPrefab: {fileID: 3475184105495990793, guid: c6dc586cd46cf491fa3b5e08cf68949e, type: 3}
-  badFoodPrefab: {fileID: 5304893004130584873, guid: 2322be858c24c4abc990b759d78301cd, type: 3}
+  goodFoodPrefab: {fileID: 3475184105495990793, guid: 5f543e764632975468dc03de5e5ca3e5, type: 3}
+  badFoodPrefab: {fileID: 5304893004130584873, guid: c9171a26482a4614b890cb9517270910, type: 3}
   numGoodFood: 8
   numBadFood: 5
 --- !u!4 &712260059
@@ -7379,8 +7424,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e3fa48617442c79e0df8b9471b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodArea
-  goodFoodPrefab: {fileID: 3475184105495990793, guid: c6dc586cd46cf491fa3b5e08cf68949e, type: 3}
-  badFoodPrefab: {fileID: 5304893004130584873, guid: 2322be858c24c4abc990b759d78301cd, type: 3}
+  goodFoodPrefab: {fileID: 3475184105495990793, guid: 5f543e764632975468dc03de5e5ca3e5, type: 3}
+  badFoodPrefab: {fileID: 5304893004130584873, guid: c9171a26482a4614b890cb9517270910, type: 3}
   numGoodFood: 8
   numBadFood: 5
 --- !u!1 &749679328
@@ -9472,8 +9517,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e3fa48617442c79e0df8b9471b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodArea
-  goodFoodPrefab: {fileID: 3475184105495990793, guid: c6dc586cd46cf491fa3b5e08cf68949e, type: 3}
-  badFoodPrefab: {fileID: 5304893004130584873, guid: 2322be858c24c4abc990b759d78301cd, type: 3}
+  goodFoodPrefab: {fileID: 3475184105495990793, guid: 5f543e764632975468dc03de5e5ca3e5, type: 3}
+  badFoodPrefab: {fileID: 5304893004130584873, guid: c9171a26482a4614b890cb9517270910, type: 3}
   numGoodFood: 8
   numBadFood: 5
 --- !u!4 &907101745
@@ -12642,8 +12687,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.CameraSensorComponent
   m_Camera: {fileID: 1454035842}
   m_SensorName: AgentCamera
-  m_Width: 48
-  m_Height: 48
+  m_Width: 32
+  m_Height: 32
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0
@@ -12952,6 +12997,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1221187894}
   - component: {fileID: 1221187895}
+  - component: {fileID: 1221187896}
   m_Layer: 0
   m_Name: AgentEye
   m_TagString: Untagged
@@ -13018,13 +13064,57 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1221187896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221187893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 0
+  m_RequiresOpaqueTextureOption: 0
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 0
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1233181330
 GameObject:
   m_ObjectHideFlags: 0
@@ -13595,8 +13685,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.CameraSensorComponent
   m_Camera: {fileID: 374412704}
   m_SensorName: AgentCamera
-  m_Width: 48
-  m_Height: 48
+  m_Width: 32
+  m_Height: 32
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0
@@ -14370,6 +14460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1395806840}
   - component: {fileID: 1395806841}
+  - component: {fileID: 1395806842}
   m_Layer: 0
   m_Name: AgentEye
   m_TagString: Untagged
@@ -14436,13 +14527,57 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1395806842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395806839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 0
+  m_RequiresOpaqueTextureOption: 0
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 0
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1399566219
 GameObject:
   m_ObjectHideFlags: 0
@@ -14839,6 +14974,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1454035841}
   - component: {fileID: 1454035842}
+  - component: {fileID: 1454035843}
   m_Layer: 0
   m_Name: AgentEye
   m_TagString: Untagged
@@ -14905,13 +15041,57 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1454035843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454035840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 0
+  m_RequiresOpaqueTextureOption: 0
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 0
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1458519883
 GameObject:
   m_ObjectHideFlags: 0
@@ -15085,8 +15265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e3fa48617442c79e0df8b9471b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodArea
-  goodFoodPrefab: {fileID: 3475184105495990793, guid: c6dc586cd46cf491fa3b5e08cf68949e, type: 3}
-  badFoodPrefab: {fileID: 5304893004130584873, guid: 2322be858c24c4abc990b759d78301cd, type: 3}
+  goodFoodPrefab: {fileID: 3475184105495990793, guid: 5f543e764632975468dc03de5e5ca3e5, type: 3}
+  badFoodPrefab: {fileID: 5304893004130584873, guid: c9171a26482a4614b890cb9517270910, type: 3}
   numGoodFood: 8
   numBadFood: 5
 --- !u!4 &1461256135
@@ -16640,8 +16820,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.CameraSensorComponent
   m_Camera: {fileID: 634885106}
   m_SensorName: AgentCamera
-  m_Width: 48
-  m_Height: 48
+  m_Width: 32
+  m_Height: 32
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0
@@ -17033,6 +17213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1677800707}
   - component: {fileID: 1677800708}
+  - component: {fileID: 1677800709}
   m_Layer: 0
   m_Name: AgentEye
   m_TagString: Untagged
@@ -17099,13 +17280,57 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1677800709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677800706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 0
+  m_RequiresOpaqueTextureOption: 0
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 0
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1681382615
 GameObject:
   m_ObjectHideFlags: 0
@@ -17116,6 +17341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1681382616}
   - component: {fileID: 1681382617}
+  - component: {fileID: 1681382618}
   m_Layer: 0
   m_Name: AgentEye
   m_TagString: Untagged
@@ -17182,13 +17408,57 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1681382618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681382615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 0
+  m_RequiresOpaqueTextureOption: 0
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 0
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1710372201
 GameObject:
   m_ObjectHideFlags: 0
@@ -18183,8 +18453,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.CameraSensorComponent
   m_Camera: {fileID: 1681382617}
   m_SensorName: AgentCamera
-  m_Width: 48
-  m_Height: 48
+  m_Width: 32
+  m_Height: 32
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0
@@ -18893,6 +19163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1878016125}
   - component: {fileID: 1878016126}
+  - component: {fileID: 1878016127}
   m_Layer: 0
   m_Name: AgentEye
   m_TagString: Untagged
@@ -18959,13 +19230,57 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1878016127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878016124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 0
+  m_RequiresOpaqueTextureOption: 0
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 0
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1888718405
 GameObject:
   m_ObjectHideFlags: 0
@@ -20629,8 +20944,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e3fa48617442c79e0df8b9471b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodArea
-  goodFoodPrefab: {fileID: 3475184105495990793, guid: c6dc586cd46cf491fa3b5e08cf68949e, type: 3}
-  badFoodPrefab: {fileID: 5304893004130584873, guid: 2322be858c24c4abc990b759d78301cd, type: 3}
+  goodFoodPrefab: {fileID: 3475184105495990793, guid: 5f543e764632975468dc03de5e5ca3e5, type: 3}
+  badFoodPrefab: {fileID: 5304893004130584873, guid: c9171a26482a4614b890cb9517270910, type: 3}
   numGoodFood: 8
   numBadFood: 5
 --- !u!4 &2047155822
@@ -20982,8 +21297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81e3fa48617442c79e0df8b9471b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FoodArea
-  goodFoodPrefab: {fileID: 3475184105495990793, guid: c6dc586cd46cf491fa3b5e08cf68949e, type: 3}
-  badFoodPrefab: {fileID: 5304893004130584873, guid: 2322be858c24c4abc990b759d78301cd, type: 3}
+  goodFoodPrefab: {fileID: 3475184105495990793, guid: 5f543e764632975468dc03de5e5ca3e5, type: 3}
+  badFoodPrefab: {fileID: 5304893004130584873, guid: c9171a26482a4614b890cb9517270910, type: 3}
   numGoodFood: 8
   numBadFood: 5
 --- !u!4 &2080386823
@@ -21694,8 +22009,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.CameraSensorComponent
   m_Camera: {fileID: 712163735}
   m_SensorName: AgentCamera
-  m_Width: 48
-  m_Height: 48
+  m_Width: 32
+  m_Height: 32
   m_Grayscale: 0
   m_ObservationType: 0
   m_RuntimeCameraEnable: 0

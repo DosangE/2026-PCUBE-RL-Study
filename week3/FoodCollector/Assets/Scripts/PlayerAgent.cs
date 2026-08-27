@@ -48,7 +48,9 @@ public class PlayerAgent : Agent
 
         if (MaxStep > 0)
         {
-            AddReward(-1 / MaxStep);
+            // MaxStep은 int라 -1 / MaxStep 으로 쓰면 정수 나눗셈이 되어 항상 0이다.
+            // (에피소드 전체 누적 -1.0을 의도한 시간 패널티가 통째로 죽는다)
+            AddReward(-1f / MaxStep);
         }
     }
 

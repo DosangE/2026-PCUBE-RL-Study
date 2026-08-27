@@ -13,11 +13,14 @@ behaviors:
       normalize: false
       hidden_units: 128
       num_layers: 2
-      vis_encode_type: simple      # 48x48 카메라 관측 → simple encoder (권장 최소 20x20)
+      vis_encode_type: simple      # 32x32 카메라 관측 → simple encoder (최소 20x20)
     reward_signals:
       extrinsic:
         gamma: 0.99              # 미래 보상 할인율 ****
         strength: 1.0
-    max_steps: 100000            # 총 학습 스텝(에이전트 수만큼 빨리 소모) ****
+    max_steps: 500000            # 총 학습 스텝(에이전트 수만큼 빨리 소모) ****
+                                 # linear 스케줄이라 LR/beta/epsilon이 이 값 기준으로 0까지 감쇠한다.
+                                 # 끊어서 --resume 하면 스케줄이 재계산돼 LR이 튀므로 목표치를 한 번에 박을 것
     time_horizon: 64
     summary_freq: 10000          # TensorBoard 기록 주기
+    checkpoint_interval: 50000   # 중간 저장 주기. 기본값 500000이라 명시 안 하면 중간 세이브가 안 남는다
