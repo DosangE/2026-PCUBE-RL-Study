@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using Unity.MLAgents;
 using UnityEngine;
 
-// spawn/reset the players and ball, handle a goal (score + group reward + reset)
+// Spawn/reset the players and ball, handle a goal (score + group reward + reset), and own every
+// shaping weight for this field. Rationale + scale table: week4/RewardDesign.md
 public class SoccerEnvController : MonoBehaviour
 {
     [System.Serializable]
@@ -17,18 +18,86 @@ public class SoccerEnvController : MonoBehaviour
         public Rigidbody Rb;
     }
 
-    [Tooltip("Steps before the round auto-resets (0 = never)")]
-    public int MaxEnvironmentSteps = 25000;
+    [Tooltip("Steps before the round auto-resets (0 = never). 3000 steps @50Hz = 60s of match time. " +
+             "Also the denominator of the existential reward (striker -1/N, goalie +1/N), so a full " +
+             "timeout costs a striker exactly one goal's worth.")]
+    public int MaxEnvironmentSteps = 3000;
 
     [Tooltip("Scatter the ball and non-goalie players across the whole pitch each reset " +
              "(instead of near their kickoff spots) to improve striker generalization. " +
              "Goalies always keep their goal line.")]
     public bool strongRandomization = true;
 
+    // ---------------------------------------------------------------------------------------
+    // Shaping weights. Every one is budgeted per episode so the sum of all shaping stays well
+    // under the +/-1 goal signal — otherwise the agents farm shaping instead of scoring.
+    // Set any weight/budget to 0 to ablate that term (that is how they were tuned one at a time).
+    // ---------------------------------------------------------------------------------------
+
+    [Header("S1 - ball progress (team, delta)")]
+    [Tooltip("Reward per world unit the ball moves toward the goal a team attacks; the conceding " +
+             "team gets the exact negative, so it is zero-sum and cannot be farmed by shuttling the " +
+             "ball back and forth. 0.005 x the ~34u pitch = 0.17 for driving the ball end to end, " +
+             "about 1/6 of a goal. This is the striker's main gradient: it rewards ADVANCING the " +
+             "ball, whereas a 'be near the ball' bonus just breeds ball-hugging.")]
+    public float ballProgressWeight = 0.005f;
+
+    [Tooltip("Ignore per-step ball movement larger than this (world units). Guards against paying " +
+             "out on teleports — resets, goal respawns — rather than on actual play.")]
+    public float ballProgressMaxPerStep = 2f;
+
+    [Header("S2 - striker ball touch (individual, event)")]
+    [Tooltip("Reward for a striker touching the ball. Bootstrap only: before the striker can move " +
+             "the ball at all, S1 gives zero gradient. Small enough that 20 touches (the budget) " +
+             "are worth 1/10 of a goal.")]
+    public float strikerTouchWeight = 0.005f;
+
+    [Tooltip("Max total S2 payout per striker per episode.")]
+    public float strikerTouchBudget = 0.1f;
+
+    [Header("G1 - goalie clearance (individual, event, delta)")]
+    [Tooltip("Reward for a goalie punting the ball clear, paid on how far the ball actually got " +
+             "from the defended goal within the measurement window (not for the touch itself — a " +
+             "block that drops at the goalie's feet is a rebound, not a save).")]
+    public float goalieClearanceWeight = 0.02f;
+
+    [Tooltip("Max total G1 payout per goalie per episode (5 clean clearances).")]
+    public float goalieClearanceBudget = 0.1f;
+
+    [Tooltip("Physics steps to watch the ball after a goalie touch before paying G1. 50 @50Hz = 1s.")]
+    public int goalieClearanceWindow = 50;
+
+    [Tooltip("Distance gained (world units) that counts as a full-value clearance.")]
+    public float goalieClearanceRefDist = 15f;
+
+    [Header("G2 - goalie blocking position (individual, per-step)")]
+    [Tooltip("Max total G2 penalty per goalie per episode. Charged in proportion to how far the " +
+             "goalie is from the ideal blocking spot, so a goalie that holds its line pays ~0 and " +
+             "one that wanders the pitch pays at most this. Capped so it can never outweigh -1 for " +
+             "conceding.")]
+    public float goaliePositionBudget = 0.15f;
+
+    [Tooltip("How far out from the goal centre the ideal blocking spot sits, along the goal->ball line. The goal " +
+             "centre measured from the net colliders is ~21.4 from the field centre and the goalie is " +
+             "authored at 17, so 4.5 puts the ideal spot on the goalie's own home line.")]
+    public float goalieStandoff = 4.5f;
+
+    [Tooltip("Distance from the ideal spot that counts as maximum position error.")]
+    public float goaliePositionRefDist = 10f;
+
+    [Header("Shared")]
+    [Tooltip("Seconds before the same agent can trigger another touch-based reward (S2/G1). One " +
+             "physical contact fires many collision events as the ball rolls along the body; " +
+             "without this an agent parked on the ball farms the bonus every physics step.")]
+    public float touchRewardCooldown = 0.5f;
+
     [Tooltip("VsGoalie lesson only: per-step penalty scale for a ball that sits still. The " +
              "penalty grows exponentially the longer the ball stays put, pushing strikers to " +
              "go fetch a ball behind them instead of loafing. 0 disables it.")]
     public float ballStallPenaltyScale = 0.00005f;
+
+    [Tooltip("Max total ball-stall penalty per episode.")]
+    public float ballStallBudget = 0.1f;
 
     public GameObject ball;
     [HideInInspector]
@@ -45,11 +114,23 @@ public class SoccerEnvController : MonoBehaviour
     SimpleMultiAgentGroup m_BlueAgentGroup;
     SimpleMultiAgentGroup m_RedAgentGroup;
 
+    // World-space centres of each team's own goal, measured once from the tagged goal colliders so
+    // this works for every field copy without hard-coding pitch dimensions.
+    Vector3 m_BlueGoalCenter; // the goal Blue defends and Red attacks
+    Vector3 m_RedGoalCenter;  // the goal Red defends and Blue attacks
+
+    // S1 state: last frame's ball distance to the red goal (the goal Blue attacks).
+    float m_PrevBallDistToRedGoal;
+
+    // G1 state: one clearance measurement in flight at a time (the latest goalie punt wins).
+    AgentSoccer m_ClearanceGoalie;
+    int m_ClearanceStepsLeft;
+    float m_ClearanceStartDist;
+
     // VsGoalie lesson (2 attacking strikers vs the other team's lone goalie): the attacker/defender
     // roles are fixed for the round, so we can shape defense specifically. Set in ResetScene.
     bool m_VsGoalieLesson;
     Team m_DefenderTeam;      // the team whose goalie is defending
-    bool m_BallOnDefenderHalf; // hysteresis flag for the "cleared across midfield" reward
     int m_BallStillSteps;      // consecutive FixedUpdate steps the ball has been ~motionless
     float m_StallPenaltyPaid;  // total stall penalty charged this round (kept bounded, see below)
 
@@ -57,6 +138,9 @@ public class SoccerEnvController : MonoBehaviour
     {
         ballRb = ball.GetComponent<Rigidbody>();
         m_BallStartingPos = ball.transform.position;
+
+        m_BlueGoalCenter = FindGoalCenter("blueGoal");
+        m_RedGoalCenter = FindGoalCenter("redGoal");
 
         m_BlueAgentGroup = new SimpleMultiAgentGroup();
         m_RedAgentGroup = new SimpleMultiAgentGroup();
@@ -71,6 +155,34 @@ public class SoccerEnvController : MonoBehaviour
         ResetScene();
     }
 
+    // Union of this field's goal colliders for a tag, flattened to the pitch plane.
+    Vector3 FindGoalCenter(string goalTag)
+    {
+        var found = false;
+        var bounds = new Bounds();
+        foreach (var col in GetComponentsInChildren<Collider>(true))
+        {
+            if (!col.CompareTag(goalTag))
+                continue;
+            if (!found) { bounds = col.bounds; found = true; }
+            else bounds.Encapsulate(col.bounds);
+        }
+        if (!found)
+        {
+            Debug.LogWarning($"{name}: no collider tagged '{goalTag}' found; goalie/progress shaping will be wrong.");
+            return transform.position;
+        }
+        var c = bounds.center;
+        c.y = transform.position.y;
+        return c;
+    }
+
+    // The goal a team defends. Used by the goalie positioning shaping (G2).
+    public Vector3 OwnGoalCenter(Team team)
+    {
+        return team == Team.Blue ? m_BlueGoalCenter : m_RedGoalCenter;
+    }
+
     void FixedUpdate()
     {
         m_ResetTimer += 1;
@@ -79,13 +191,62 @@ public class SoccerEnvController : MonoBehaviour
             m_BlueAgentGroup.GroupEpisodeInterrupted();
             m_RedAgentGroup.GroupEpisodeInterrupted();
             ResetScene();
+            return;
         }
 
+        RewardBallProgress();
+        TickClearanceWindow();
+
         if (m_VsGoalieLesson)
-        {
-            RewardBallClearance();
             PenalizeBallStalling();
-        }
+    }
+
+    // S1 — ball progress toward the attacked goal, as a GROUP reward so MA-POCA does the credit
+    // assignment (whoever actually moved it gets the credit, not whoever happened to be nearby).
+    //
+    // Delta, not position, on purpose: "reward being near the ball" produces an agent that parks
+    // next to the ball and jiggles, while "reward the ball getting closer to their goal" produces
+    // an agent that drives it forward. It is also exactly zero-sum between the two teams and sums
+    // to zero over any round trip, so there is no oscillation exploit — the only way to bank it
+    // permanently is to end the episode with the ball deep, which means scoring.
+    void RewardBallProgress()
+    {
+        var dist = Vector3.Distance(ball.transform.position, m_RedGoalCenter);
+        var progress = m_PrevBallDistToRedGoal - dist; // >0: ball moved toward the goal Blue attacks
+        m_PrevBallDistToRedGoal = dist;
+
+        if (ballProgressWeight <= 0f || Mathf.Abs(progress) > ballProgressMaxPerStep)
+            return; // oversized jump == a reset/respawn teleport, not play
+
+        var r = ballProgressWeight * progress;
+        m_BlueAgentGroup.AddGroupReward(r);
+        m_RedAgentGroup.AddGroupReward(-r);
+    }
+
+    // G1 — start measuring a goalie's clearance. Called from AgentSoccer.OnCollisionEnter; a fresh
+    // touch re-arms the window from the ball's current spot so the LAST punt is the one scored.
+    public void BeginClearanceWindow(AgentSoccer goalie)
+    {
+        m_ClearanceGoalie = goalie;
+        m_ClearanceStepsLeft = goalieClearanceWindow;
+        m_ClearanceStartDist = Vector3.Distance(ball.transform.position, OwnGoalCenter(goalie.team));
+    }
+
+    void TickClearanceWindow()
+    {
+        if (m_ClearanceGoalie == null)
+            return;
+        if (--m_ClearanceStepsLeft > 0)
+            return;
+
+        var goalie = m_ClearanceGoalie;
+        m_ClearanceGoalie = null;
+        if (!goalie.gameObject.activeSelf)
+            return;
+
+        var gained = Vector3.Distance(ball.transform.position, OwnGoalCenter(goalie.team)) - m_ClearanceStartDist;
+        if (gained > 0f)
+            goalie.RewardClearance(gained / goalieClearanceRefDist);
     }
 
     // VsGoalie lesson only: if the ball sits still too long the attackers are loafing (typically
@@ -102,48 +263,23 @@ public class SoccerEnvController : MonoBehaviour
         else
             m_BallStillSteps = 0;
 
-        const float episodeBudget = 1f; // total stall penalty per round can't exceed a goal's worth
-
         var over = m_BallStillSteps - graceSteps;
-        if (over <= 0 || ballStallPenaltyScale <= 0f || m_StallPenaltyPaid >= episodeBudget)
+        if (over <= 0 || ballStallPenaltyScale <= 0f || m_StallPenaltyPaid >= ballStallBudget)
             return;
 
         // exp curve, tiny at first then steep. Per-step exponent capped (e^6); ALSO cap the running
-        // total per round, otherwise a ball stuck for hundreds of steps accumulates -10..-20 group
-        // reward and swamps the +/-1 goal signal (which is what tanked Striker Group Cumulative Reward).
+        // total per round, otherwise a ball stuck for hundreds of steps accumulates a group penalty
+        // that swamps the +/-1 goal signal.
         var attackerGroup = m_DefenderTeam == Team.Blue ? m_RedAgentGroup : m_BlueAgentGroup;
         var penalty = ballStallPenaltyScale * (Mathf.Exp(Mathf.Min(over / tau, 6f)) - 1f);
-        penalty = Mathf.Min(penalty, episodeBudget - m_StallPenaltyPaid);
+        penalty = Mathf.Min(penalty, ballStallBudget - m_StallPenaltyPaid);
         m_StallPenaltyPaid += penalty;
         attackerGroup.AddGroupReward(-penalty);
     }
 
-    // VsGoalie lesson only: reward the defending goalie when the ball is pushed across midfield,
-    // from the defender's half into the attacker's half (a successful clearance). The hysteresis
-    // band means the ball must go clearly onto the defender's half and then clearly out, so it
-    // can't be farmed by jitter around the halfway line.
-    void RewardBallClearance()
-    {
-        // Blue defends the -x goal, Red the +x goal. "clear" > 0 means the ball is on the
-        // attacker's half (away from the defended goal).
-        var defGoalSign = m_DefenderTeam == Team.Blue ? -1f : 1f;
-        var clear = -(ball.transform.position.x - transform.position.x) * defGoalSign;
-        const float band = 2f;
-        if (m_BallOnDefenderHalf && clear > band)
-        {
-            var defenderGroup = m_DefenderTeam == Team.Blue ? m_BlueAgentGroup : m_RedAgentGroup;
-            defenderGroup.AddGroupReward(0.5f);
-            m_BallOnDefenderHalf = false;
-        }
-        else if (clear < -band)
-        {
-            m_BallOnDefenderHalf = true;
-        }
-    }
-
     public void ResetBall()
     {
-        // Strong mode spreads the ball across most of the pitch (kept off the ±20 goal lines);
+        // Strong mode spreads the ball across most of the pitch (kept off the goal lines);
         // otherwise a small jitter around the center spot.
         var range = strongRandomization ? new Vector2(14f, 7f) : new Vector2(2.5f, 2.5f);
         var randomPosX = Random.Range(-range.x, range.x);
@@ -186,7 +322,6 @@ public class SoccerEnvController : MonoBehaviour
         }
 
         if (scoredTeam == Team.Blue) blueScore++; else redScore++;
-        Debug.Log($"Goal! Blue {blueScore} - {redScore} Red");
 
         scoredGroup.EndGroupEpisode();
         concededGroup.EndGroupEpisode();
@@ -198,6 +333,7 @@ public class SoccerEnvController : MonoBehaviour
         m_ResetTimer = 0;
         m_BallStillSteps = 0; // ball is reset to rest below; don't carry stillness across rounds
         m_StallPenaltyPaid = 0f;
+        m_ClearanceGoalie = null;
 
         // Curriculum lesson (from Python environment_parameters): 0 = 2 strikers vs empty goal,
         // 1 = 2 strikers vs a lone goalie, 2 = full 3v3 self-play. Default 2 when run in-editor.
@@ -254,17 +390,15 @@ public class SoccerEnvController : MonoBehaviour
         //Reset Ball
         ResetBall();
 
-        // Arm the clearance reward: only count a clearance once the ball has been clearly on the
-        // defender's half, so a center kickoff drifting upfield doesn't hand out a free reward.
-        var defGoalSign = m_DefenderTeam == Team.Blue ? -1f : 1f;
-        m_BallOnDefenderHalf = -(ball.transform.position.x - transform.position.x) * defGoalSign < -2f;
+        // Re-baseline S1 AFTER the ball teleports, so the respawn jump is never paid out.
+        m_PrevBallDistToRedGoal = Vector3.Distance(ball.transform.position, m_RedGoalCenter);
     }
 
     // Who is on the field for a given curriculum lesson. Blue always attacks the Red goal
     // (see SoccerBallController), so Blue strikers are the ones being trained up.
     static bool ActiveInLesson(AgentSoccer agent, float lesson, Team team = Team.Blue)
     {
-        
+
         var striker = agent.team == team && agent.position == AgentSoccer.Position.Striker;
         if (lesson < 1f)   // Lesson 0: only the attacking strikers, empty goal.
             return striker;

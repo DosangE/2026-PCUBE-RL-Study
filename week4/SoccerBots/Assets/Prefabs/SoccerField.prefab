@@ -53,9 +53,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e397bc3ae78c466a8d44400f5b68e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxEnvironmentSteps: 50000
+  MaxEnvironmentSteps: 3000
   strongRandomization: 0
+  ballProgressWeight: 0.005
+  ballProgressMaxPerStep: 2
+  strikerTouchWeight: 0.005
+  strikerTouchBudget: 0.1
+  goalieClearanceWeight: 0.02
+  goalieClearanceBudget: 0.1
+  goalieClearanceWindow: 50
+  goalieClearanceRefDist: 15
+  goaliePositionBudget: 0.15
+  goalieStandoff: 4.5
+  goaliePositionRefDist: 10
+  touchRewardCooldown: 0.5
   ballStallPenaltyScale: 0.00005
+  ballStallBudget: 0.1
   ball: {fileID: 7664398686034957369}
   ballRb: {fileID: 0}
   AgentsList:
