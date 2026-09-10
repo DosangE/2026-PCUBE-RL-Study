@@ -1,20 +1,24 @@
-# UnderCooked - MA-POCA 2인 협동 요리
+# UnderCooked - MA-POCA, 2 cooperating chefs.
 #
-# 실행:
-#   conda activate mlagents
+# ASCII ONLY. Do not put non-ASCII characters (Korean comments included) in this file.
+# mlagents' load_config() opens it with the OS default codepage (cp949 on this machine),
+# not UTF-8, so any non-ASCII byte aborts training before it starts.
+# Design rationale lives in ../README.md instead.
+#
+# Run:
 #   cd week7-8/UnderCooked-Hyeongjun
 #   mlagents-learn configs/undercooked.yaml --run-id=undercooked_v1
-#   (Listening on port 5004 뜨면 Unity 에디터에서 Play)
+#   (press Play in the Unity editor once it says "Listening on port 5004")
 #
-# behaviors 키 'Chef' 는 Behavior Parameters의 Behavior Name과 대소문자까지 일치해야 한다.
-# environment_parameters 키(target_soups / cook_time)는 KitchenEnv.ResetEnv()가 읽는 이름과 같아야 한다.
+# The 'Chef' key must match Behavior Parameters > Behavior Name exactly.
+# environment_parameters keys must match the names KitchenEnv.ResetEnv() reads.
 
 behaviors:
   Chef:
     trainer_type: poca
 
     hyperparameters:
-      batch_size: 1024        # sequence_length(64)의 배수여야 RNN 학습이 깔끔하다
+      batch_size: 1024        # multiple of sequence_length (64)
       buffer_size: 20480
       learning_rate: 3.0e-4
       beta: 0.01
@@ -24,12 +28,10 @@ behaviors:
       learning_rate_schedule: linear
 
     network_settings:
-      normalize: true         # 관측 45차원, 값 범위가 섞여 있으므로 필수
+      normalize: true
       hidden_units: 256
       num_layers: 2
       memory:
-        # 조리 진행도를 관측에서 일부러 뺐다.
-        # "냄비를 언제 채웠는지"를 에이전트가 기억해야 하므로 RNN이 필요하다.
         sequence_length: 64
         memory_size: 128
 
@@ -41,16 +43,14 @@ behaviors:
     keep_checkpoints: 5
     checkpoint_interval: 500000
     max_steps: 8000000
-    time_horizon: 128         # 에피소드가 약 300 decision이라 128이면 충분
+    time_horizon: 128         # episode is ~300 decisions
     summary_freq: 20000
 
 environment_parameters:
-  # ── 목표 수프 개수: 1 -> 2 -> 3 ──────────────────────────────
-  # 에피소드 성공 시 에이전트당 누적 보상 대략치
-  #   lesson0(1개): 팀 3.9 + 목표보너스 2.0 + 개인 ~0.4 - 스텝비용 ≈ 6.0
-  #   lesson1(2개): ≈ 10.1
-  #   lesson2(3개): ≈ 14.0
-  # threshold는 "절반쯤 성공하는 수준"으로 잡았다. 실제 곡선 보고 조정할 것.
+  # Target soups per episode: 1 -> 2 -> 3
+  # Approx. cumulative reward per agent on a successful episode:
+  #   lesson0 (1 soup): ~6.0    lesson1 (2): ~10.1    lesson2 (3): ~14.0
+  # Thresholds are set around "succeeds about half the time".
   target_soups:
     curriculum:
       - name: lesson0
@@ -72,9 +72,9 @@ environment_parameters:
       - name: lesson2
         value: 3.0
 
-  # ── 조리 시간: 2초 -> 5초 ────────────────────────────────────
-  # 초반에는 짧게 해서 "재료 3개 -> 수프" 인과를 빨리 잡게 하고,
-  # 학습이 35% 진행되면 실제 난이도(5초)로 올린다. 대기 시간이 길수록 RNN 부담이 커진다.
+  # Cook time: 2s -> 5s.
+  # Short at first so the "3 ingredients -> soup" causal link is easy to pick up,
+  # then raised to the real difficulty once training is 35% through.
   cook_time:
     curriculum:
       - name: lesson0
