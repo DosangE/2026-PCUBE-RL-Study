@@ -18,12 +18,15 @@ public class ChefAgent : Agent
     //   손에 든 것 one-hot           4
     //   동료 상대좌표                2
     //   동료 손 one-hot              4
-    //   냄비 재료수 / 완성 플래그    2   (조리 진행도는 일부러 제외 -> RNN이 기억)
+    //   냄비 재료수                  1   ★ '조리 다 됐는지'는 일부러 안 준다 -> RNN이 기억해야 한다
     //   카운터 3칸 x (one-hot 4 + 상대좌표 2) = 18
     //   스테이션 4곳 상대좌표        8
     //   남은 시간                    1
-    //                          합계 45
-    public const int ObservationSize = 45;
+    //                          합계 44
+    //
+    // ★ 관측에서 뺀 정보가 Action Mask로 새면 아무 의미가 없다.
+    //   Station.CanInteract의 냄비+빈그릇 분기가 그래서 HasCookedSoup을 보지 않는다.
+    public const int ObservationSize = 44;
 
     // 관측 크기를 고정하려고 슬롯 수를 상수로 박는다.
     // 실제 카운터가 이보다 적으면 0으로 채우고, 많으면 앞에서부터 잘라 쓴다.
@@ -41,6 +44,9 @@ public class ChefAgent : Agent
     [SerializeField] float rewardPickFromSource = 0.05f;
     [SerializeField] float rewardTransfer = 0.15f;
     [SerializeField] float rewardWasted = -0.2f;
+    [Tooltip("조리가 덜 끝났는데 수프를 뜨려고 한 헛도리. 스텝 비용만으로는 너무 싸서 " +
+             "냄비 앞에서 계속 눌러보는 정책이 최적이 되어버린다 -> 기억할 이유를 만든다")]
+    [SerializeField] float rewardPotNotReady = -0.02f;
     [SerializeField] float rewardPerStep = -0.002f;
 
     [Header("손에 든 것 표시 색")]
@@ -137,10 +143,11 @@ public class ChefAgent : Agent
             sensor.AddOneHotObservation(0, ItemTypeCount);
         }
 
-        // 6) 냄비 상태 (2). 조리 진행도는 일부러 빼둔다 -> Memory(RNN)가 필요한 이유.
+        // 6) 냄비 재료 개수 (1).
+        //    '조리가 끝났는지'는 관측에 넣지 않는다. 재료를 언제 다 넣었는지 기억해서
+        //    스스로 추정해야 한다 = Memory(RNN)가 필요한 이유.
         var pot = m_Env.Pot;
         sensor.AddObservation(pot != null ? (float)pot.IngredientCount / pot.PotCapacity : 0f);
-        sensor.AddObservation(pot != null && pot.HasCookedSoup ? 1f : 0f);
 
         // 7) 카운터 슬롯 (18)
         var counters = m_Env.Counters;
@@ -266,6 +273,11 @@ public class ChefAgent : Agent
 
             case InteractResult.Wasted:
                 AddReward(rewardWasted);
+                break;
+
+            case InteractResult.PotNotReady:
+                // 아직 덜 끓었는데 떠보려 했다. 기다릴 줄 아는 정책이 이득이 되도록 비용을 매긴다.
+                AddReward(rewardPotNotReady);
                 break;
 
             // TookSoupFromPot / PlacedOnCounter / TookOwnFromCounter / Nothing 은 보상 없음

@@ -6,6 +6,7 @@ public enum InteractResult
     PickedFromSource,     // 재료함 / 그릇함에서 집음
     PlacedInPot,          // 냄비에 재료 투입
     TookSoupFromPot,      // 빈 그릇으로 완성된 수프를 담음
+    PotNotReady,          // 빈 그릇을 들고 떠봤지만 아직 조리 중이었음 (헛도리)
     PlacedOnCounter,      // 카운터에 올림 (전달 시도)
     TookFromCounter,      // 카운터에서 '동료가 놓은' 물건을 집음 -> 전달 성립
     TookOwnFromCounter,   // 카운터에서 '자기가 놓은' 물건을 도로 집음 -> 보상 없음

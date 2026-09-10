@@ -71,9 +71,17 @@ public class Station : MonoBehaviour
 
             case StationType.Pot:
                 if (heldItem == ItemType.Ingredient)
+                    // 냄비가 차면(조리 중이든 완성이든) 똑같이 막힌다 -> 조리 상태가 새지 않는다.
                     return !IsCooking && !HasCookedSoup && IngredientCount < m_PotCapacity;
+
                 if (heldItem == ItemType.EmptyPlate)
-                    return HasCookedSoup;
+                    // 냄비가 차 있기만 하면 '떠보는 것'까지 허용한다.
+                    // 여기서 HasCookedSoup으로 마스크를 가르면, 관측에서 일부러 뺀
+                    // '조리 다 됐는지'가 Action Mask를 통해 그대로 새어나간다.
+                    // 그러면 정책이 기억할 필요 없이 마스크가 열릴 때 누르기만 하면 되고,
+                    // RNN을 쓸 이유가 사라진다. 덜 됐으면 헛도리가 되도록 남겨둔다.
+                    return IngredientCount >= m_PotCapacity;
+
                 return false;
 
             case StationType.ServingHatch:
@@ -115,7 +123,10 @@ public class Station : MonoBehaviour
                     if (IngredientCount >= m_PotCapacity) IsCooking = true;
                     return InteractResult.PlacedInPot;
                 }
-                // 빈 그릇 + 완성된 수프 -> 담아서 들고 나간다. 냄비는 다음 배치를 위해 비워진다.
+                // 빈 그릇 + 냄비가 참. 아직 조리 중이면 헛도리로 끝난다.
+                if (!HasCookedSoup) return InteractResult.PotNotReady;
+
+                // 완성됐으면 담아서 들고 나간다. 냄비는 다음 배치를 위해 비워진다.
                 newHeldItem = ItemType.CookedSoup;
                 IngredientCount = 0;
                 HasCookedSoup = false;
