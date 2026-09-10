@@ -77,6 +77,9 @@ public class KitchenEnv : MonoBehaviour
     readonly List<Station> m_Counters = new List<Station>();
     readonly Dictionary<StationType, Station> m_TypedStations = new Dictionary<StationType, Station>();
 
+    // 스테이션 종류별로 '어느 구역 에이전트가 쓸 수 있는지'. 등록 때 인접 칸에서 계산한다.
+    int[] m_StationZoneByType;
+
     float m_CookTime;
     int m_TargetSoups;
     float m_EpisodeTimer;
@@ -192,6 +195,9 @@ public class KitchenEnv : MonoBehaviour
         m_Counters.Clear();
         m_TypedStations.Clear();
 
+        m_StationZoneByType = new int[System.Enum.GetValues(typeof(StationType)).Length];
+        for (int i = 0; i < m_StationZoneByType.Length; i++) m_StationZoneByType[i] = ZoneBlocked;
+
         foreach (var station in GetComponentsInChildren<Station>(true))
         {
             Vector3 local = transform.InverseTransformPoint(station.transform.position);
@@ -222,6 +228,20 @@ public class KitchenEnv : MonoBehaviour
 
         // 복제한 16개 환경이 같은 순서로 관측하도록 셀 기준으로 정렬한다.
         m_Counters.Sort((a, b) => a.Cell.x != b.Cell.x ? a.Cell.x - b.Cell.x : a.Cell.y - b.Cell.y);
+
+        // 각 스테이션이 어느 구역에서 접근 가능한지 인접 칸으로 판정한다.
+        foreach (var pair in m_TypedStations)
+        {
+            foreach (var dir in Directions)
+            {
+                var neighbour = pair.Value.Cell + dir;
+                if (!IsInsideGrid(neighbour)) continue;
+                int zone = m_ZoneGrid[neighbour.x, neighbour.y];
+                if (zone == ZoneBlocked) continue;
+                m_StationZoneByType[(int)pair.Key] = zone;
+                break;
+            }
+        }
 
         // 레이아웃이 요구하는 스테이션이 전부 붙어 있는지 확인한다.
         for (int row = 0; row < m_GridHeight; row++)
@@ -332,6 +352,36 @@ public class KitchenEnv : MonoBehaviour
     {
         var station = GetStationAt(cell);
         return station != null && station.CanInteract(heldItem);
+    }
+
+    // 그 스테이션이 이 아이템을 '소비'하는가 (재료함/그릇함은 생산만 하므로 false).
+    static bool StationConsumes(StationType type, ItemType item)
+    {
+        switch (type)
+        {
+            case StationType.Pot:          return item == ItemType.Ingredient || item == ItemType.EmptyPlate;
+            case StationType.ServingHatch: return item == ItemType.CookedSoup;
+            default:                       return false;
+        }
+    }
+
+    // 이 아이템이 그 에이전트 구역에서 실제로 쓸모가 있는가.
+    //
+    // 카운터 전달 보상을 '쓸모 있는 방향'으로만 제한하기 위해 필요하다.
+    // 이게 없으면 A가 놓고 B가 집고 B가 놓고 A가 집는 핑퐁만으로
+    // decision당 +0.073을 벌 수 있는데, 이는 수프를 제대로 서빙하는 +0.048보다 높다.
+    // 즉 협동을 학습하는 대신 물건을 주고받는 시늉만 하는 정책으로 수렴한다.
+    // 되돌아가는 방향(예: 접시를 B에게 되넘기기)에는 보상이 없으므로 핑퐁 이득이 절반 이하로 떨어진다.
+    public bool IsItemUsefulFor(int agentIndex, ItemType item)
+    {
+        if (item == ItemType.None || m_StationZoneByType == null) return false;
+
+        foreach (var pair in m_TypedStations)
+        {
+            if (!StationConsumes(pair.Key, item)) continue;
+            if (m_StationZoneByType[(int)pair.Key] == agentIndex) return true;
+        }
+        return false;
     }
 
     // ─────────────────────────── 상호작용 ───────────────────────────

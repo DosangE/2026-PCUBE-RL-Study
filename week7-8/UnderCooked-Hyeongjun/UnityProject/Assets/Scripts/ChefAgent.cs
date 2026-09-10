@@ -249,10 +249,15 @@ public class ChefAgent : Agent
                 break;
 
             case InteractResult.TookFromCounter:
-                // 전달이 '성립'한 순간에만 보상을 준다. 집은 쪽과 놓은 쪽 둘 다.
-                // 올려놓는 순간에 주면 혼자 놓았다 집었다를 반복해서 보상을 긁을 수 있다.
-                AddReward(rewardTransfer);
-                if (m_Group != null) m_Group.AwardPersonalReward(outcome.TransferPartnerIndex, rewardTransfer);
+                // 전달 보상은 두 조건을 다 만족할 때만 준다. 집은 쪽과 놓은 쪽 둘 다에게.
+                //   (1) 동료가 놓은 것일 것          -> 혼자 놓았다 집었다 반복 차단
+                //   (2) 내 구역에서 쓸모가 있을 것    -> A<->B 핑퐁으로 긁는 것 차단
+                // (2)가 없으면 접시를 서로 되넘기는 것만으로 정직한 플레이보다 많이 벌 수 있다.
+                if (m_Env.IsItemUsefulFor(agentIndex, m_HeldItem))
+                {
+                    AddReward(rewardTransfer);
+                    if (m_Group != null) m_Group.AwardPersonalReward(outcome.TransferPartnerIndex, rewardTransfer);
+                }
                 break;
 
             case InteractResult.Served:
