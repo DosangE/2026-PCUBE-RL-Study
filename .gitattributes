@@ -1,0 +1,16 @@
+* text=auto
+
+# Unity .gitattributes 템플릿이 쓰는 매크로.
+# git의 [attr] 매크로는 '저장소 최상위 .gitattributes'에서만 정의될 수 있다.
+# UnityProject/.gitattributes 안에 두면 통째로 무시되므로 여기로 올려둔다.
+# (정의는 여기, 사용은 week7-8/.../UnityProject/.gitattributes 에서 한다)
+[attr]lfs               filter=lfs diff=lfs merge=lfs -text
+[attr]unity-json        eol=lf linguist-language=json
+[attr]unity-yaml        merge=unityyamlmerge eol=lf linguist-language=yaml
+
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.demo filter=lfs diff=lfs merge=lfs -text
+*.gif  filter=lfs diff=lfs merge=lfs -text
+*.mp4  filter=lfs diff=lfs merge=lfs -text
+*.png  filter=lfs diff=lfs merge=lfs -text
+*.fbx  filter=lfs diff=lfs merge=lfs -text
