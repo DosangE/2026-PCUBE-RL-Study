@@ -38,7 +38,9 @@ behaviors:
         strength: 1.0
     keep_checkpoints: 5
     checkpoint_interval: 500000
-    max_steps: 30000000
+    # Two active strikers generate about twice as many agent-steps as one goalie.
+    # 10M / 5M therefore gives both policies roughly equal 3v3 match exposure.
+    max_steps: 10000000
     time_horizon: 1000
     threaded: true
     summary_freq: 20000
@@ -71,7 +73,9 @@ behaviors:
         strength: 1.0
     keep_checkpoints: 5
     checkpoint_interval: 500000
-    max_steps: 30000000
+    # Keep this at half the Striker cap: otherwise Goalie's lower agent count
+    # unnecessarily doubles the wall-clock time of the full run.
+    max_steps: 5000000
     time_horizon: 1000
     threaded: true
     summary_freq: 20000
