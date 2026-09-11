@@ -265,24 +265,61 @@ GPU 사용률은 학습 중 16% 언저리였다.
 `env_step` 1156.2초(**89%**) / `trainer_advance` 129.2초(10%), GPU 사용률 17%.
 더 짜내려면 **빌드해서 학습**(4장)이 다음 수단이다.
 
+### `camera_run_07` — 300만 스텝 장기 학습
+
+`camera_run_05`/`06`은 `max_steps: 500000`을 종점으로 삼아 학습률·탐험 계수가
+50만 스텝에 맞춰 0까지 선형 감쇠한다. 따라서 50만 스텝 이후의 성능을 확인하려고
+같은 32×32 RGB 카메라 관측과 PPO 설정에서 `max_steps: 3000000`으로 새 런을 수행했다.
+
+| 항목 | `camera_run_07` |
+|---|---:|
+| 최종 체크포인트 | 3,000,456 steps |
+| 마지막 요약 스텝 | 3,000,000 |
+| 학습 시간 | 7,898.5초 (2시간 11분 38초) |
+| 처리 속도 | 약 380 steps/s |
+| 최종 평균 보상 | 147.33 (표준편차 3.63) |
+| TensorBoard smoothing 0.6 | 146.18 |
+| 최고 평균 보상 | 152.94 (2,830,000 steps) |
+| 병렬 학습 환경 | TrainingArea 9개 (공유 정책) |
+
+보상 추이:
+
+```
+ 100k   7.90 |  500k 118.06 | 1.0M 126.85 | 1.5M 139.00
+ 2.0M 145.44 | 2.5M 147.56 | 3.0M 147.33
+```
+
+`results/camera_run_07/`에는 최종 `FoodCollector.onnx`, 재개용 `checkpoint.pt`,
+마지막 5개 중간 체크포인트, TensorBoard 이벤트 파일, 실행 설정과 타이머 로그를 보관한다.
+다른 PC에서는 저장소를 받은 뒤 다음 명령으로 곡선을 열 수 있다.
+
+```bash
+tensorboard --logdir results/camera_run_07
+```
+
+> Ray `food_run_01`의 47.39와 `camera_run_07`의 147.33은 직접 비교하지 않는다.
+> Ray 런은 시간 패널티 정수 나눗셈 버그와 이전 콜라이더 조건에서 300k 스텝만 수행했으므로,
+> 보상 함수와 학습 예산 모두 다르다.
+
 ### 이어서 학습하기
 
-`camera_run_05`는 `results/camera_run_05/FoodCollector/checkpoint.pt`를 남겼다.
+`camera_run_07`은 `results/camera_run_07/FoodCollector/checkpoint.pt`를 남겼다.
 `config/foodCollector.yaml`의 `max_steps`를 목표치로 올린 뒤 **같은 run-id에 `--resume`**:
 
 ```bash
-mlagents-learn week3/FoodCollector/config/foodCollector.yaml --run-id=camera_run_05 --resume
+mlagents-learn week3/FoodCollector/config/foodCollector.yaml --run-id=camera_run_07 --resume
 ```
 
 `max_steps`를 안 올리면 "이미 도달했다"며 즉시 끝나니 반드시 먼저 올릴 것.
-중간 체크포인트는 349,936 / 399,968 / 449,960 / 499,992 스텝 것이 보관돼 있다
-(`keep_checkpoints: 5` 기본값이라 오래된 건 밀려난다).
+마지막 중간 체크포인트는 2,849,952 / 2,899,984 / 2,949,976 / 2,999,944 / 3,000,456
+스텝 것이다 (`keep_checkpoints: 5` 기본값이라 오래된 것은 밀려난다).
 
 > **센서 설정을 바꾸면 `--resume`이 불가능하다.** 해상도를 바꾸면 관측 shape이 달라져
 > 기존 체크포인트와 맞지 않는다. 그때는 새 run-id로 처음부터 돌려야 한다.
 
-> `results/` 는 `.gitignore` 대상이라 저장소에 없다. 다른 PC로 옮기려면 `results/camera_run_04/` 를
-> 통째로 복사해야 `--resume` 이 된다.
+> 일반 `results/` 경로는 `.gitignore` 대상이지만, 제출 결과인 `results/camera_run_07/`는
+> 의도적으로 저장소에 보관한다. 따라서 다른 PC에서도 clone/pull 뒤 바로 TensorBoard 확인과
+> `--resume`이 가능하다.
 
 ---
 

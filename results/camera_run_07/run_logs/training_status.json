@@ -1,0 +1,65 @@
+{
+    "FoodCollector": {
+        "checkpoints": [
+            {
+                "steps": 2849952,
+                "file_path": "results\\camera_run_07\\FoodCollector\\FoodCollector-2849952.onnx",
+                "reward": 148.05556758244833,
+                "creation_time": 1787988671.5314343,
+                "auxillary_file_paths": [
+                    "results\\camera_run_07\\FoodCollector\\FoodCollector-2849952.pt"
+                ]
+            },
+            {
+                "steps": 2899984,
+                "file_path": "results\\camera_run_07\\FoodCollector\\FoodCollector-2899984.onnx",
+                "reward": 143.27778906292386,
+                "creation_time": 1787988803.3080776,
+                "auxillary_file_paths": [
+                    "results\\camera_run_07\\FoodCollector\\FoodCollector-2899984.pt"
+                ]
+            },
+            {
+                "steps": 2949976,
+                "file_path": "results\\camera_run_07\\FoodCollector\\FoodCollector-2949976.onnx",
+                "reward": null,
+                "creation_time": 1787988935.162613,
+                "auxillary_file_paths": [
+                    "results\\camera_run_07\\FoodCollector\\FoodCollector-2949976.pt"
+                ]
+            },
+            {
+                "steps": 2999944,
+                "file_path": "results\\camera_run_07\\FoodCollector\\FoodCollector-2999944.onnx",
+                "reward": 147.3333452542623,
+                "creation_time": 1787989065.3324528,
+                "auxillary_file_paths": [
+                    "results\\camera_run_07\\FoodCollector\\FoodCollector-2999944.pt"
+                ]
+            },
+            {
+                "steps": 3000456,
+                "file_path": "results\\camera_run_07\\FoodCollector\\FoodCollector-3000456.onnx",
+                "reward": 147.3333452542623,
+                "creation_time": 1787989065.4420738,
+                "auxillary_file_paths": [
+                    "results\\camera_run_07\\FoodCollector\\FoodCollector-3000456.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3000456,
+            "file_path": "results\\camera_run_07\\FoodCollector.onnx",
+            "reward": 147.3333452542623,
+            "creation_time": 1787989065.4420738,
+            "auxillary_file_paths": [
+                "results\\camera_run_07\\FoodCollector\\FoodCollector-3000456.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
