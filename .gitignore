@@ -120,6 +120,11 @@ crashlytics-build.properties
 **/summaries/
 # Keep results READMEs and link files tracked:
 !**/results/README.md
+!**/results/*/
+**/results/*/*
+!**/results/*/README.md
+!**/results/*/*.svg
+!**/results/*/tensorboard-*.png
 
 # --- Claude Code (keep all Claude files out of the shared repo) ---
 **/.claude/

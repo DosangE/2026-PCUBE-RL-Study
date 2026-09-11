@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="460" viewBox="0 0 900 460" role="img" aria-labelledby="title desc">
+  <title id="title">TensorBoard Environment/Cumulative Reward</title>
+  <desc id="desc">FoodCollector camera_run_07 cumulative reward rises to approximately 147 by three million steps.</desc>
+  <rect width="900" height="460" fill="#ffffff"/>
+  <text x="70" y="38" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#202124">Environment/Cumulative Reward</text>
+  <text x="70" y="62" font-family="Arial, sans-serif" font-size="13" fill="#5f6368">run: FoodCollector · TensorBoard scalar summary · smoothing 0.6</text>
+  <g stroke="#e8eaed" stroke-width="1">
+    <line x1="80" y1="370" x2="850" y2="370"/><line x1="80" y1="272" x2="850" y2="272"/><line x1="80" y1="174" x2="850" y2="174"/><line x1="80" y1="76" x2="850" y2="76"/>
+    <line x1="80" y1="76" x2="80" y2="370"/><line x1="337" y1="76" x2="337" y2="370"/><line x1="593" y1="76" x2="593" y2="370"/><line x1="850" y1="76" x2="850" y2="370"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="12" fill="#5f6368">
+    <text x="52" y="374">0</text><text x="44" y="276">50</text><text x="38" y="178">100</text><text x="38" y="80">150</text>
+    <text x="72" y="397">0</text><text x="316" y="397">1M</text><text x="572" y="397">2M</text><text x="829" y="397">3M</text>
+    <text x="7" y="225" transform="rotate(-90 7 225)">Reward</text><text x="422" y="432">Step</text>
+  </g>
+  <polyline fill="none" stroke="#ff6f00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="80,370 106,355 208,139 337,121 465,97 593,85 722,81 806,70 850,81"/>
+  <g fill="#ff6f00" stroke="#ffffff" stroke-width="2"><circle cx="106" cy="355" r="4"/><circle cx="208" cy="139" r="4"/><circle cx="337" cy="121" r="4"/><circle cx="465" cy="97" r="4"/><circle cx="593" cy="85" r="4"/><circle cx="722" cy="81" r="4"/><circle cx="806" cy="70" r="5"/><circle cx="850" cy="81" r="5"/></g>
+  <g font-family="Arial, sans-serif" font-size="12" fill="#202124"><text x="744" y="62">peak 152.94</text><text x="754" y="104">final 147.33</text></g>
+  <text x="80" y="450" font-family="Arial, sans-serif" font-size="11" fill="#80868b">Source: results/camera_run_07/FoodCollector/events.out.tfevents.*</text>
+</svg>

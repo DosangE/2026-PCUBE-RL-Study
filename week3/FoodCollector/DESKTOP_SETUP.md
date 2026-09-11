@@ -325,8 +325,8 @@ mlagents-learn week3/FoodCollector/config/foodCollector.yaml --run-id=camera_run
 
 ## 7. 이슈 제출물 체크리스트 (issue #2)
 
-- [ ] TensorBoard 스크린샷 (`Environment/Cumulative Reward`)
+- [x] TensorBoard 스크린샷 (`Environment/Cumulative Reward`)
 - [ ] 추론 영상 (`.onnx` 물린 상태, 10MB 이하)
-- [ ] 총 스텝 수 / 학습 시간 / 평균 보상 (가능하면 Ray 비교)
-- [ ] 카메라 설정 + `configuration.yaml` 주요 하이퍼파라미터
+- [x] 총 스텝 수 / 학습 시간 / 평균 보상 (가능하면 Ray 비교)
+- [x] 카메라 설정 + `configuration.yaml` 주요 하이퍼파라미터
 - [ ] 회고
